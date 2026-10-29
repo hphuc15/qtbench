@@ -1,0 +1,3 @@
+[submodule "lib/mqttOQ"]
+	path = lib/mqttOQ
+	url = https://github.com/hphuc15/mqttOQ
