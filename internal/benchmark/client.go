@@ -24,12 +24,12 @@ type Client interface {
 
 // ClientOptions contains runtime parameters for benchmark clients.
 type ClientOptions struct {
-	BrokerAddr     string
-	ClientID       string
-	CleanSession   bool
-	KeepaliveSec   uint16
-	InsecureTLS    bool
-	ServerName     string
-	SSLKeyLogPath  string
+	BrokerAddr        string
+	ClientID          string
+	CleanSession      bool
+	KeepaliveSec      uint16
+	InsecureTLS       bool
+	ServerName        string
+	SSLKeyLogPath     string
 	EnableMultiStream bool
 }

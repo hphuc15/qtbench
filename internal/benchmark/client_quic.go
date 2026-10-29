@@ -5,14 +5,15 @@ import (
 	"fmt"
 	"time"
 
-	mqttclient "github.com/hphuc15/mqttOQ/client"
 	"qtbench/internal/transport"
+
+	mqttOQ "github.com/hphuc15/mqttOQ/client"
 )
 
 // QUICClient adapts the mqttOQ client library to the benchmark Client interface.
 type QUICClient struct {
 	opts   ClientOptions
-	client *mqttclient.Client
+	client *mqttOQ.Client
 }
 
 // NewQUICClient creates a benchmark client using the mqttOQ library.
@@ -36,25 +37,25 @@ func (c *QUICClient) Connect(ctx context.Context) (*HandshakeResult, error) {
 		return nil, fmt.Errorf("failed to configure TLS 1.3 for QUIC: %w", err)
 	}
 
-	cfg := mqttclient.ClientConfig{
-		Broker: mqttclient.ClientBroker{
+	cfg := mqttOQ.ClientConfig{
+		Broker: mqttOQ.ClientBroker{
 			Address: c.opts.BrokerAddr,
 		},
-		Credentials: mqttclient.ClientCredentials{
+		Credentials: mqttOQ.ClientCredentials{
 			ClientID: c.opts.ClientID,
 		},
-		Session: mqttclient.ClientSession{
+		Session: mqttOQ.ClientSession{
 			KeepAlive:    c.opts.KeepaliveSec,
 			CleanSession: c.opts.CleanSession,
 		},
-		Network: mqttclient.ClientNetwork{
+		Network: mqttOQ.ClientNetwork{
 			ConnectTimeout:    15 * time.Second,
 			EnableMultiStream: c.opts.EnableMultiStream,
 		},
 		TLSConfig: tlsCfg,
 	}
 
-	c.client = mqttclient.NewClient(cfg)
+	c.client = mqttOQ.NewClient(cfg)
 
 	t0 := time.Now()
 	err = c.client.Connect(ctx)
@@ -119,7 +120,7 @@ func (c *QUICClient) Subscribe(ctx context.Context, topic string, qos byte, hand
 		return fmt.Errorf("quic client is not connected")
 	}
 
-	return c.client.Subscribe(ctx, topic, qos, func(_ *mqttclient.Client, msg mqttclient.Message) {
+	return c.client.Subscribe(ctx, topic, qos, func(_ *mqttOQ.Client, msg mqttOQ.Message) {
 		recvNs := time.Now().UnixNano()
 		hdr, err := DecodePayload(msg.Payload)
 		if err == nil && handler != nil {

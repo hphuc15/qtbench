@@ -10,8 +10,9 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/hphuc15/mqttOQ/packet"
 	"qtbench/internal/transport"
+
+	"github.com/hphuc15/mqttOQ/packet"
 )
 
 var (
