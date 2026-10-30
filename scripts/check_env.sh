@@ -34,7 +34,11 @@ check_cmd() {
 }
 
 echo "1. Checking Core Tools."
-check_cmd "go" "true"
+if [ -d "arm64" ] || [ -f "exparunner" ] || [ -f "arm64/exparunner" ]; then
+    check_cmd "go" "false"
+else
+    check_cmd "go" "true"
+fi
 check_cmd "tshark" "true"
 check_cmd "ping" "true"
 check_cmd "iperf3" "true"
