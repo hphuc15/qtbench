@@ -1,0 +1,18 @@
+# Root compiled binaries
+/exparunner
+/expbrunner
+/analyzexpa
+/analyzexpb
+/benchrunner
+/analyzepcap
+*.exe
+*.test
+
+# Benchmark artifacts & raw data
+results/pcap/
+results/*.pcap
+results/*.log
+results/deliveries/
+
+# Go tests
+**/*_test.go
