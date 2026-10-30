@@ -1,0 +1,69 @@
+{
+  "broker": {
+    "host": "127.0.0.1",
+    "tcp_tls_port": 8883,
+    "quic_port": 14567,
+    "insecure_skip_verify": true,
+    "server_name": "localhost"
+  },
+  "fixed_parameters": {
+    "tls_version": "TLS 1.3",
+    "qos": 1,
+    "keepalive_sec": 60,
+    "clean_session": true,
+    "publish_rate_msg_per_sec": 10,
+    "message_count": 100,
+    "payload_size_bytes": 2048,
+    "quic_multistream": true,
+    "mtu_bytes": 1024,
+    "topic": "benchmark/test"
+  },
+  "netem_scenarios": {
+    "B0": {
+      "name": "Control Baseline",
+      "packet_loss_percent": 0.0,
+      "rate_limit_mbps": 0.0,
+      "added_delay_ms": 0.0
+    },
+    "B1": {
+      "name": "Light Packet Loss",
+      "packet_loss_percent": 10.0,
+      "rate_limit_mbps": 0.0,
+      "added_delay_ms": 0.0
+    },
+    "B2": {
+      "name": "Heavy Packet Loss",
+      "packet_loss_percent": 40.0,
+      "rate_limit_mbps": 0.0,
+      "added_delay_ms": 0.0
+    },
+    "B3": {
+      "name": "Rate Limited",
+      "packet_loss_percent": 0.0,
+      "rate_limit_mbps": 1.0,
+      "added_delay_ms": 0.0
+    },
+    "B4": {
+      "name": "High Delay",
+      "packet_loss_percent": 0.0,
+      "rate_limit_mbps": 0.0,
+      "added_delay_ms": 100.0
+    },
+    "B5": {
+      "name": "Combined Degradation",
+      "packet_loss_percent": 10.0,
+      "rate_limit_mbps": 1.0,
+      "added_delay_ms": 100.0
+    }
+  },
+  "iterations": {
+    "experiment_a_min": 3,
+    "experiment_a_recommended": 30,
+    "experiment_b_min": 3,
+    "experiment_b_recommended": 10
+  },
+  "logging": {
+    "results_dir": "./results",
+    "sslkeylog_file": "./results/sslkeylog.log"
+  }
+}
