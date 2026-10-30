@@ -31,7 +31,7 @@ func main() {
 	env := flag.String("env", "wired", "Environment label (wired or wireless)")
 	iface := flag.String("iface", "any", "Network interface for tshark packet capture")
 	netIface := flag.String("netem-iface", "", "Network interface for tc netem (empty = skip netem)")
-	qos := flag.Int("qos", 1, "MQTT QoS level (0, 1, or 2)")
+	qos := flag.Int("qos", 0, "MQTT QoS level (0, 1, or 2) (default 0)")
 	count := flag.Int("count", 100, "Number of messages per session")
 	rate := flag.Int("rate", 10, "Publish rate in messages/second")
 	iterations := flag.Int("iterations", 5, "Number of iterations per scenario")

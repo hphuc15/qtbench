@@ -18,7 +18,7 @@ func main() {
 	proto := flag.String("proto", "quic", "Transport protocol: 'quic' or 'tcp-tls'")
 	broker := flag.String("broker", "127.0.0.1:14567", "Broker address (host:port)")
 	topic := flag.String("topic", "benchmark/test", "MQTT topic")
-	qos := flag.Int("qos", 1, "MQTT QoS level (0, 1, 2)")
+	qos := flag.Int("qos", 0, "MQTT QoS level (0, 1, 2) (default 0)")
 	expected := flag.Int("expected", 100, "Expected number of messages to receive")
 	waitTimeout := flag.Duration("timeout", 30*time.Second, "Maximum wait time after last received message")
 	clientID := flag.String("client-id", "", "MQTT Client ID")

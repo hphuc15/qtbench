@@ -15,7 +15,7 @@ func main() {
 	proto := flag.String("proto", "quic", "Transport protocol: 'quic' or 'tcp-tls'")
 	broker := flag.String("broker", "127.0.0.1:14567", "Broker address (host:port)")
 	topic := flag.String("topic", "benchmark/test", "MQTT topic")
-	qos := flag.Int("qos", 1, "MQTT QoS level (0, 1, 2)")
+	qos := flag.Int("qos", 0, "MQTT QoS level (0, 1, 2) (default 0)")
 	count := flag.Int("count", 100, "Number of messages to publish")
 	rate := flag.Int("rate", 10, "Publish rate in messages per second")
 	size := flag.Int("size", 2048, "Payload size in bytes")
