@@ -7,6 +7,7 @@
 /analyzepcap
 *.exe
 *.test
+bin/
 
 # Benchmark artifacts & raw data
 results/pcap/
