@@ -18,11 +18,12 @@ type Scenario struct {
 
 var DefaultScenarios = map[string]Scenario{
 	"B0": {ID: "B0", Name: "Control Baseline", PacketLoss: 0.0, RateLimit: 0.0, AddedDelay: 0.0},
-	"B1": {ID: "B1", Name: "Light Packet Loss", PacketLoss: 10.0, RateLimit: 0.0, AddedDelay: 0.0},
-	"B2": {ID: "B2", Name: "Heavy Packet Loss", PacketLoss: 40.0, RateLimit: 0.0, AddedDelay: 0.0},
-	"B3": {ID: "B3", Name: "Rate Limited", PacketLoss: 0.0, RateLimit: 1.0, AddedDelay: 0.0},
-	"B4": {ID: "B4", Name: "High Delay", PacketLoss: 0.0, RateLimit: 0.0, AddedDelay: 100.0},
-	"B5": {ID: "B5", Name: "Combined Degradation", PacketLoss: 10.0, RateLimit: 1.0, AddedDelay: 100.0},
+	"B1": {ID: "B1", Name: "Light Packet Loss", PacketLoss: 5.0, RateLimit: 0.0, AddedDelay: 0.0},
+	"B2": {ID: "B2", Name: "Moderate Packet Loss", PacketLoss: 10.0, RateLimit: 0.0, AddedDelay: 0.0},
+	"B3": {ID: "B3", Name: "Heavy Packet Loss", PacketLoss: 20.0, RateLimit: 0.0, AddedDelay: 0.0},
+	"B4": {ID: "B4", Name: "Moderate Delay", PacketLoss: 0.0, RateLimit: 0.0, AddedDelay: 100.0},
+	"B5": {ID: "B5", Name: "High Delay", PacketLoss: 0.0, RateLimit: 0.0, AddedDelay: 300.0},
+	"B6": {ID: "B6", Name: "Combined Degradation", PacketLoss: 10.0, RateLimit: 0.0, AddedDelay: 200.0},
 }
 
 // Controller manages Linux traffic control (tc netem) qdiscs.
@@ -120,19 +121,27 @@ func (c *Controller) Status() (string, error) {
 
 // scenarioIDMap maps lowercase runner scenario IDs to the uppercase DefaultScenarios keys.
 var scenarioIDMap = map[string]string{
-	"b0-baseline":      "B0",
+	"b0-baseline":   "B0",
+	"b1-loss5":      "B1",
+	"b2-loss10":     "B2",
+	"b3-loss20":     "B3",
+	"b4-delay100":   "B4",
+	"b5-delay300":   "B5",
+	"b6-combined":   "B6",
+	// Legacy mappings for backwards compatibility
 	"b1-loss1":         "B1",
 	"b2-loss5":         "B2",
 	"b3-delay50":       "B3",
 	"b4-delay50-loss1": "B4",
 	"b5-rate1mbps":     "B5",
-	// Also accept uppercase directly
+	// Direct uppercase keys
 	"B0": "B0",
 	"B1": "B1",
 	"B2": "B2",
 	"B3": "B3",
 	"B4": "B4",
 	"B5": "B5",
+	"B6": "B6",
 }
 
 // Apply is a package-level helper that applies a named scenario to iface using sudo.

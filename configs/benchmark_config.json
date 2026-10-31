@@ -13,10 +13,10 @@
     "clean_session": true,
     "publish_rate_msg_per_sec": 10,
     "message_count": 100,
-    "payload_size_bytes": 2048,
+    "payload_size_bytes": 1024,
     "quic_multistream": true,
     "mtu_bytes": 1024,
-    "topic": "benchmark/test"
+    "topic": "bench/exp-b"
   },
   "netem_scenarios": {
     "B0": {
@@ -27,33 +27,39 @@
     },
     "B1": {
       "name": "Light Packet Loss",
-      "packet_loss_percent": 10.0,
+      "packet_loss_percent": 5.0,
       "rate_limit_mbps": 0.0,
       "added_delay_ms": 0.0
     },
     "B2": {
-      "name": "Heavy Packet Loss",
-      "packet_loss_percent": 40.0,
+      "name": "Moderate Packet Loss",
+      "packet_loss_percent": 10.0,
       "rate_limit_mbps": 0.0,
       "added_delay_ms": 0.0
     },
     "B3": {
-      "name": "Rate Limited",
-      "packet_loss_percent": 0.0,
-      "rate_limit_mbps": 1.0,
+      "name": "Heavy Packet Loss",
+      "packet_loss_percent": 20.0,
+      "rate_limit_mbps": 0.0,
       "added_delay_ms": 0.0
     },
     "B4": {
-      "name": "High Delay",
+      "name": "Moderate Delay",
       "packet_loss_percent": 0.0,
       "rate_limit_mbps": 0.0,
       "added_delay_ms": 100.0
     },
     "B5": {
+      "name": "High Delay",
+      "packet_loss_percent": 0.0,
+      "rate_limit_mbps": 0.0,
+      "added_delay_ms": 300.0
+    },
+    "B6": {
       "name": "Combined Degradation",
       "packet_loss_percent": 10.0,
-      "rate_limit_mbps": 1.0,
-      "added_delay_ms": 100.0
+      "rate_limit_mbps": 0.0,
+      "added_delay_ms": 200.0
     }
   },
   "iterations": {

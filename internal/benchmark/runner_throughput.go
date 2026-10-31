@@ -14,21 +14,22 @@ import (
 	"qtbench/internal/packet"
 )
 
-// ScenarioID identifies a netem scenario (B0 through B5).
+// ScenarioID identifies a netem scenario (B0 through B6).
 type ScenarioID = string
 
 const (
 	ScenarioB0 ScenarioID = "b0-baseline"
-	ScenarioB1 ScenarioID = "b1-loss1"
-	ScenarioB2 ScenarioID = "b2-loss5"
-	ScenarioB3 ScenarioID = "b3-delay50"
-	ScenarioB4 ScenarioID = "b4-delay50-loss1"
-	ScenarioB5 ScenarioID = "b5-rate1mbps"
+	ScenarioB1 ScenarioID = "b1-loss5"
+	ScenarioB2 ScenarioID = "b2-loss10"
+	ScenarioB3 ScenarioID = "b3-loss20"
+	ScenarioB4 ScenarioID = "b4-delay100"
+	ScenarioB5 ScenarioID = "b5-delay300"
+	ScenarioB6 ScenarioID = "b6-combined"
 )
 
 // AllScenarios lists all Experiment B scenario IDs in order.
 var AllScenarios = []ScenarioID{
-	ScenarioB0, ScenarioB1, ScenarioB2, ScenarioB3, ScenarioB4, ScenarioB5,
+	ScenarioB0, ScenarioB1, ScenarioB2, ScenarioB3, ScenarioB4, ScenarioB5, ScenarioB6,
 }
 
 // ThroughputRunConfig holds settings for Experiment B.
@@ -39,7 +40,7 @@ type ThroughputRunConfig struct {
 	Environment      string
 	Iterations       int   // N_B
 	MessageCount     int   // 100
-	PayloadBytes     int   // 2048
+	PayloadBytes     int   // 1024
 	PublishRateHz    int   // 10 msg/s
 	QoS              byte  // 0, 1, or 2
 	Topic            string
@@ -85,7 +86,7 @@ func RunExperimentB(ctx context.Context, cfg ThroughputRunConfig, progressCb Thr
 		cfg.MessageCount = 100
 	}
 	if cfg.PayloadBytes < 17 {
-		cfg.PayloadBytes = 2048
+		cfg.PayloadBytes = 1024
 	}
 	if cfg.PublishRateHz < 1 {
 		cfg.PublishRateHz = 10

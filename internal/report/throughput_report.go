@@ -289,9 +289,19 @@ func buildComparisons(results []ScenarioResult) []ComparisonRow {
 	}
 
 	var rows []ComparisonRow
-	scenarios := []string{
-		benchmark.ScenarioB0, benchmark.ScenarioB1, benchmark.ScenarioB2,
-		benchmark.ScenarioB3, benchmark.ScenarioB4, benchmark.ScenarioB5,
+	seenScenarios := make(map[string]bool)
+	var scenarios []string
+	for _, sc := range benchmark.AllScenarios {
+		if !seenScenarios[sc] {
+			seenScenarios[sc] = true
+			scenarios = append(scenarios, sc)
+		}
+	}
+	for _, sr := range results {
+		if !seenScenarios[sr.Scenario] {
+			seenScenarios[sr.Scenario] = true
+			scenarios = append(scenarios, sr.Scenario)
+		}
 	}
 
 	for _, sc := range scenarios {
@@ -362,9 +372,9 @@ func ExportThroughputTableMarkdown(report *ThroughputReport, outputDir string) e
 		fmt.Fprintf(f, format+"\n", args...)
 	}
 
-	tableName := "Table 9: Ket qua moi truong co day (Wired Environment)"
+	tableName := "Table 8: Ket qua moi truong co day (Wired Environment)"
 	if strings.Contains(strings.ToLower(report.Environment), "wireless") {
-		tableName = "Table 10: Ket qua moi truong khong day (Wireless Environment)"
+		tableName = "Table 9: Ket qua moi truong khong day (Wireless Environment)"
 	}
 
 	w("# Experiment B - Throughput & Degradation Results: %s", report.Environment)
@@ -393,8 +403,8 @@ func ExportThroughputTableMarkdown(report *ThroughputReport, outputDir string) e
 	}
 	w("")
 
-	// Table 11: Best protocol comparison table
-	w("## Table 11: Giao thuc tot hon theo truong hop va chi so (Environment: %s)", report.Environment)
+	// Table 10: Best protocol comparison table
+	w("## Table 10: Giao thuc tot hon theo truong hop va chi so (Environment: %s)", report.Environment)
 	w("")
 	w("| Truong hop | Do tre p95 Tot hon | Delta p95 (%%) | Thong luong Tot hon | Delta Thpt (%%) |")
 	w("| --- | --- | --- | --- | --- |")

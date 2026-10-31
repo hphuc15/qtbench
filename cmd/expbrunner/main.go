@@ -1,12 +1,12 @@
 // Command expbrunner: runner for Experiment B (message throughput and latency).
-// Executes all 6 netem scenarios (B0-B5) for both TCP/TLS and QUIC,
+// Executes all 7 netem scenarios (B0-B6) for both TCP/TLS and QUIC,
 // collecting per-message latencies and pcap for overhead calculation.
 //
 // Usage:
 //
-//	expbrunner -broker-ip <IP> -tcp-port 8883 -quic-port 8884 \
+//	expbrunner -broker-ip <IP> -tcp-port 8883 -quic-port 14567 \
 //	           -env wired -iface eth0 -netem-iface eth0 \
-//	           -qos 1 -count 100 -rate 10 -iterations 5 \
+//	           -qos 0 -count 100 -payload 1024 -rate 10 -iterations 10 \
 //	           -keylog results/exp_b/sslkeys.log \
 //	           -out results/exp_b
 package main
@@ -33,6 +33,7 @@ func main() {
 	netIface := flag.String("netem-iface", "", "Network interface for tc netem (empty = skip netem)")
 	qos := flag.Int("qos", 0, "MQTT QoS level (0, 1, or 2) (default 0)")
 	count := flag.Int("count", 100, "Number of messages per session")
+	payload := flag.Int("payload", 1024, "Payload size in bytes per message (default 1024)")
 	rate := flag.Int("rate", 10, "Publish rate in messages/second")
 	iterations := flag.Int("iterations", 5, "Number of iterations per scenario")
 	keylog := flag.String("keylog", "", "Path to SSLKEYLOGFILE for TLS decryption")
@@ -61,7 +62,7 @@ func main() {
 		Environment:      *env,
 		Iterations:       *iterations,
 		MessageCount:     *count,
-		PayloadBytes:     2048,
+		PayloadBytes:     *payload,
 		PublishRateHz:    *rate,
 		QoS:              byte(*qos),
 		Topic:            *topic,
@@ -77,8 +78,8 @@ func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
-	log.Printf("Starting Experiment B | Env:%s Broker:%s TCP:%d QUIC:%d QoS:%d Count:%d Rate:%d/s Iters:%d",
-		*env, *brokerIP, *tcpPort, *quicPort, *qos, *count, *rate, *iterations)
+	log.Printf("Starting Experiment B | Env:%s Broker:%s TCP:%d QUIC:%d QoS:%d Count:%d Payload:%dB Rate:%d/s Iters:%d",
+		*env, *brokerIP, *tcpPort, *quicPort, *qos, *count, *payload, *rate, *iterations)
 
 	records, err := benchmark.RunExperimentB(ctx, cfg, func(scenario string, rec benchmark.MessageRunRecord) {
 		log.Printf("[%s/%s] iter=%d sent=%d recv=%d latency_samples=%d success=%v",
