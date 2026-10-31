@@ -105,12 +105,8 @@ func RunExperimentA(ctx context.Context, cfg HandshakeRunConfig, progressCb Hand
 				capturePort = cfg.TCPPort
 			}
 
-			// 1. Measure baseline RTT with ping immediately before trial
-			baselineRTT := 0.0
-			pingProf, err := netem.ProbeEnvironment(ctx, cfg.BrokerHost, cfg.Environment, "")
-			if err == nil && pingProf != nil {
-				baselineRTT = pingProf.RTTAvgMs
-			}
+			// 1. Measure baseline RTT with quick ping immediately before trial
+			baselineRTT, _ := netem.PingHost(ctx, cfg.BrokerHost, 3)
 
 			// 2. Prepare pcap path and capture filter
 			timestampStr := time.Now().Format("20060102_150405")

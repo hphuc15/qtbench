@@ -27,6 +27,23 @@ type EnvironmentProfile struct {
 	RSSI          string    `json:"rssi,omitempty"`
 }
 
+// PingHost executes a quick ping probe to measure baseline RTT in milliseconds.
+func PingHost(ctx context.Context, targetHost string, count int) (float64, error) {
+	if count <= 0 {
+		count = 3
+	}
+	timeoutCtx, cancel := context.WithTimeout(ctx, 3*time.Second)
+	defer cancel()
+
+	out, err := runCommand(timeoutCtx, "ping", "-c", strconv.Itoa(count), "-W", "1", "-i", "0.2", targetHost)
+	if err != nil {
+		return 0.0, err
+	}
+	var prof EnvironmentProfile
+	parsePingOutput(out, &prof)
+	return prof.RTTAvgMs, nil
+}
+
 // ProbeEnvironment performs ping and iperf3 measurements against the target host.
 func ProbeEnvironment(ctx context.Context, targetHost string, envName string, iface string) (*EnvironmentProfile, error) {
 	profile := &EnvironmentProfile{
