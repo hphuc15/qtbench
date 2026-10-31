@@ -24,15 +24,15 @@ type HandshakeTrial struct {
 	PcapPath      string
 
 	// From pcap timing analysis
-	AppDurationMs   float64
-	PcapDurationMs  float64
-	Round1Ms        float64
-	Round2Ms        float64
-	Round3Ms        float64 // -1 if N/A
-	PacketCount     int
-	TotalBytes      int64
-	TimingSuccess   bool
-	PacketSuccess   bool
+	AppDurationMs  float64
+	PcapDurationMs float64
+	Round1Ms       float64
+	Round2Ms       float64
+	Round3Ms       float64 // -1 if N/A
+	PacketCount    int
+	TotalBytes     int64
+	TimingSuccess  bool
+	PacketSuccess  bool
 }
 
 // HandshakeAnalysisReport holds the full set of results for Experiment A across environments.
@@ -186,8 +186,8 @@ func ExportTableMarkdown(report *HandshakeAnalysisReport, outputDir string) erro
 	w("Generated: %s", report.GeneratedAt.Format(time.RFC3339))
 	w("")
 
-	// Table 6: Publisher-side timing + packet stats
-	w("## Table 6: Results from Publisher Machine (tshark on Machine 1)")
+	// Table 5: Client-side timing + packet stats
+	w("## Table 5: Results from Client Machine (tshark on Machine 1)")
 	w("")
 	w("| Trial | Protocol | Total Duration (ms) | Packets | Bytes | Baseline RTT (ms) | App Duration (ms) |")
 	w("|-------|----------|---------------------|---------|-------|-------------------|-------------------|")
@@ -261,8 +261,8 @@ func ExportTableMarkdown(report *HandshakeAnalysisReport, outputDir string) erro
 	writeProtoSummary("QUIC", report.QUICTrials)
 	w("")
 
-	// Table 7: Per-round RTT breakdown
-	w("## Table 7: Per-RTT-Round Timings from Publisher (ms)")
+	// Table 6: Per-round RTT breakdown
+	w("## Table 6: Per-RTT-Round Timings from Client (ms)")
 	w("")
 	w("| Trial | Protocol | Round 1 (ms) | Round 2 (ms) | Round 3 (ms) |")
 	w("|-------|----------|-------------|-------------|-------------|")

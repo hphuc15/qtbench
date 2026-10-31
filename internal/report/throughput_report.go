@@ -36,11 +36,11 @@ type ScenarioResult struct {
 
 // ComparisonRow represents a comparison between TCP and QUIC for Table 11.
 type ComparisonRow struct {
-	Scenario         string  `json:"scenario"`
-	LatencyWinner    string  `json:"latency_winner"`
-	LatencyDeltaPct  float64 `json:"latency_delta_pct"`
-	ThptWinner       string  `json:"thpt_winner"`
-	ThptDeltaPct     float64 `json:"thpt_delta_pct"`
+	Scenario        string  `json:"scenario"`
+	LatencyWinner   string  `json:"latency_winner"`
+	LatencyDeltaPct float64 `json:"latency_delta_pct"`
+	ThptWinner      string  `json:"thpt_winner"`
+	ThptDeltaPct    float64 `json:"thpt_delta_pct"`
 }
 
 // ThroughputReport is the full Experiment B report.

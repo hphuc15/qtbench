@@ -38,11 +38,11 @@ type ThroughputRunConfig struct {
 	TCPPort          int
 	QUICPort         int
 	Environment      string
-	Iterations       int   // N_B
-	MessageCount     int   // 100
-	PayloadBytes     int   // 1024
-	PublishRateHz    int   // 10 msg/s
-	QoS              byte  // 0, 1, or 2
+	Iterations       int  // N_B
+	MessageCount     int  // 100
+	PayloadBytes     int  // 1024
+	PublishRateHz    int  // 10 msg/s
+	QoS              byte // 0, 1, or 2
 	Topic            string
 	Interface        string
 	ResultsDir       string
@@ -56,22 +56,22 @@ type ThroughputRunConfig struct {
 
 // MessageRunRecord stores the result of a single message-session trial.
 type MessageRunRecord struct {
-	Iteration         int       `json:"iteration"`
+	Iteration         int        `json:"iteration"`
 	Scenario          ScenarioID `json:"scenario"`
-	Protocol          string    `json:"protocol"`
-	QoS               byte      `json:"qos"`
-	MessageCount      int       `json:"message_count"`
-	SentCount         int       `json:"sent_count"`
-	RecvCount         int       `json:"recv_count"`
-	FirstSendNs       int64     `json:"first_send_ns"`
-	LastAckNs         int64     `json:"last_ack_ns"`
-	LatenciesMs       []float64 `json:"latencies_ms,omitempty"`
-	TotalPayloadBytes int64     `json:"total_payload_bytes"`
-	PcapPath          string    `json:"pcap_path"`
-	DeliveriesPath    string    `json:"deliveries_path"`
-	Success           bool      `json:"success"`
-	Error             string    `json:"error,omitempty"`
-	Timestamp         time.Time `json:"timestamp"`
+	Protocol          string     `json:"protocol"`
+	QoS               byte       `json:"qos"`
+	MessageCount      int        `json:"message_count"`
+	SentCount         int        `json:"sent_count"`
+	RecvCount         int        `json:"recv_count"`
+	FirstSendNs       int64      `json:"first_send_ns"`
+	LastAckNs         int64      `json:"last_ack_ns"`
+	LatenciesMs       []float64  `json:"latencies_ms,omitempty"`
+	TotalPayloadBytes int64      `json:"total_payload_bytes"`
+	PcapPath          string     `json:"pcap_path"`
+	DeliveriesPath    string     `json:"deliveries_path"`
+	Success           bool       `json:"success"`
+	Error             string     `json:"error,omitempty"`
+	Timestamp         time.Time  `json:"timestamp"`
 }
 
 // ThroughputProgressCallback is called after each protocol trial completes.
@@ -109,6 +109,12 @@ func RunExperimentB(ctx context.Context, cfg ThroughputRunConfig, progressCb Thr
 	scenarios := cfg.Scenarios
 	if len(scenarios) == 0 {
 		scenarios = AllScenarios
+	}
+
+	if cfg.NetemInterface != "" {
+		defer func() {
+			_ = netem.Reset(cfg.NetemInterface)
+		}()
 	}
 
 	pcapDir := filepath.Join(cfg.ResultsDir, "pcap")
