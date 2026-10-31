@@ -22,12 +22,13 @@ import (
 	"time"
 
 	"qtbench/internal/benchmark"
+	"qtbench/internal/netem"
 )
 
 func main() {
 	brokerIP := flag.String("broker-ip", "127.0.0.1", "Broker IP address")
 	tcpPort := flag.Int("tcp-port", 8883, "TCP/TLS broker port")
-	quicPort := flag.Int("quic-port", 8884, "QUIC broker port")
+	quicPort := flag.Int("quic-port", 14567, "QUIC broker port")
 	env := flag.String("env", "wired", "Environment label (wired or wireless)")
 	iface := flag.String("iface", "any", "Network interface for tshark packet capture")
 	netIface := flag.String("netem-iface", "", "Network interface for tc netem (empty = skip netem)")
@@ -77,6 +78,10 @@ func main() {
 
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
+
+	// Inspect and log link-layer configuration against Table 3a specifications
+	linkInfo := netem.InspectLinkLayer(ctx, *env, *iface)
+	linkInfo.PrintBanner()
 
 	log.Printf("Starting Experiment B | Env:%s Broker:%s TCP:%d QUIC:%d QoS:%d Count:%d Payload:%dB Rate:%d/s Iters:%d",
 		*env, *brokerIP, *tcpPort, *quicPort, *qos, *count, *payload, *rate, *iterations)

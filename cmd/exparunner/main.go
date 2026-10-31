@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"qtbench/internal/benchmark"
+	"qtbench/internal/netem"
 )
 
 func main() {
@@ -41,6 +42,10 @@ func main() {
 
 	switch *exp {
 	case "a":
+		// Inspect and log link-layer configuration against Table 3a specifications
+		linkInfo := netem.InspectLinkLayer(ctx, *envName, *iface)
+		linkInfo.PrintBanner()
+
 		fmt.Printf("=== Starting Experiment A: Handshake Cost Analysis ===\n")
 		fmt.Printf("Broker: %s (TCP: %d, QUIC: %d) | Env: %s | Iterations: %d | Interface: %s\n\n",
 			*brokerHost, *tcpPort, *quicPort, *envName, *iterations, *iface)
