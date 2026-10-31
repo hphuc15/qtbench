@@ -17,3 +17,7 @@ results/deliveries/
 
 # Go tests
 **/*_test.go
+
+# Other
+**/private/
+**/private*/
