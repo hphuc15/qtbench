@@ -8,7 +8,7 @@
 //	           -env  wired \
 //	           -broker-ip <IP> \
 //	           -tcp-port  8883 \
-//	           -quic-port 8884 \
+//	           -quic-port 14567 \
 //	           -keylog   <path/to/sslkeys.log> \
 //	           -out      results/exp_b
 package main
@@ -27,7 +27,7 @@ func main() {
 	env := flag.String("env", "wired", "Environment label (wired or wireless)")
 	brokerIP := flag.String("broker-ip", "127.0.0.1", "Broker IP address")
 	tcpPort := flag.Int("tcp-port", 8883, "TCP/TLS broker port")
-	quicPort := flag.Int("quic-port", 8884, "QUIC broker port")
+	quicPort := flag.Int("quic-port", 14567, "QUIC broker port")
 	keylog := flag.String("keylog", "", "Path to SSLKEYLOGFILE for TLS decryption (optional)")
 	outDir := flag.String("out", "results/exp_b", "Output directory for tables and JSON report")
 
