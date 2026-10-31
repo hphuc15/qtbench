@@ -15,7 +15,7 @@
     "message_count": 100,
     "payload_size_bytes": 1024,
     "quic_multistream": true,
-    "mtu_bytes": 1024,
+    "mtu_bytes": 1500,
     "topic": "bench/exp-b"
   },
   "netem_scenarios": {
